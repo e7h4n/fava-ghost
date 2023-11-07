@@ -36,8 +36,8 @@ class DaemonProcess(multiprocessing.Process):
             time.sleep(10)
             try:
                 self.update_and_run()
-            except Exception as e:  # pylint: disable=broad-except
-                print(f"Error occurred: {e}")
+            except Exception as exp:  # pylint: disable=broad-except
+                print(f"Error occurred: {exp}")
 
     def setup_repo(self):
         """Clone the repo and run fava."""
@@ -138,8 +138,8 @@ class DaemonProcess(multiprocessing.Process):
                 origin.push()
 
             return False
-        except exc.GitCommandError as e:
-            print(f"Git operation failed: {e}")
+        except exc.GitCommandError as exp:
+            print(f"Git operation failed: {exp}")
             return False
 
     def resolve_conflicts_if_any(self):
@@ -163,8 +163,8 @@ class DaemonProcess(multiprocessing.Process):
             )
             print(result.stdout.decode())
             return result.returncode == 0
-        except subprocess.CalledProcessError as e:
-            print(f"Bean-check failed: {e.output.decode()}")
+        except subprocess.CalledProcessError as exp:
+            print(f"Bean-check failed: {exp.output.decode()}")
             return False
 
     def install_dependencies(self):
@@ -194,8 +194,8 @@ class DaemonProcess(multiprocessing.Process):
             try:
                 os.kill(self.fava_process.pid, signal.SIGTERM)
                 self.fava_process.wait()
-            except OSError as e:
-                print(f"Error terminating fava process: {e}")
+            except OSError as exp:
+                print(f"Error terminating fava process: {exp}")
 
 
 def main():
