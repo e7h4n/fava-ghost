@@ -18,7 +18,7 @@ class DaemonProcess(multiprocessing.Process):
     def __init__(self, repo_url, repo_credentials, repo_path):
         super().__init__()
         install_command = "pip install -e ."
-        fava_command = "fava main.bean"
+        fava_command = "fava -H 0.0.0.0 main.bean"
 
         self.repo_url = repo_url
         self.repo_credentials = repo_credentials
