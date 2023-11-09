@@ -6,4 +6,4 @@ COPY README.md ./fava-ghost/
 RUN cd fava-ghost && pip install --no-cache-dir -e .
 
 ENTRYPOINT ["fava-ghost"]
-CMD ["--repo-url", "", "--repo-credentials", "", "--repo-path", "/tmp/beancount"]
+CMD ["--repo-path", "/tmp/beancount", "--repo-url", "", "--repo-credentials", ""]
