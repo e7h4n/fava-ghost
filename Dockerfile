@@ -1,7 +1,9 @@
 FROM python:3
 
-COPY favaghost/__init__.py ./version.py
-RUN pip install --no-cache-dir fava-ghost==`python version.py`
+COPY favaghost/ ./fava-ghost/favaghost
+COPY setup.py ./fava-ghost/
+COPY README.md ./fava-ghost/
+RUN cd fava-ghost && pip install --no-cache-dir -e .
 
 ENTRYPOINT ["fava-ghost"]
-CMD ["--repo-path", "", "--repo-url", "", "--repo-credentials", ""]
+CMD ["--repo-url", "", "--repo-credentials", "", "--repo-path", "/tmp/beancount"]
