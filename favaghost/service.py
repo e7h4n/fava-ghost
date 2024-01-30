@@ -15,10 +15,15 @@ class DaemonProcess(multiprocessing.Process):
 
     BEAN_CHECK_FILE = "main.bean"
 
-    def __init__(self, repo_url, repo_credentials, repo_path):
+    def __init__(
+        self,
+        repo_url,
+        repo_credentials,
+        repo_path,
+        fava_command="fava -H 0.0.0.0 main.bean",
+    ):
         super().__init__()
         install_command = "pip install -e ."
-        fava_command = "fava -H 0.0.0.0 main.bean"
 
         self.repo_url = repo_url
         self.repo_credentials = repo_credentials
@@ -207,6 +212,7 @@ def main():
     parser.add_argument("--repo-path", required=True, help="本地克隆仓库的路径")
     parser.add_argument("--repo-url", required=True, help="仓库的远程URL")
     parser.add_argument("--repo-credentials", required=True, help="访问远程仓库的凭证")
+    parser.add_argument("--fava-command", required=True, help="执行 fava 的命令")
 
     # 解析命令行参数
     args = parser.parse_args()
@@ -214,8 +220,9 @@ def main():
     repo_path = args.repo_path
     repo_url = args.repo_url
     repo_credentials = args.repo_credentials
+    fava_command = args.fava_command
 
-    daemon = DaemonProcess(repo_url, repo_credentials, repo_path)
+    daemon = DaemonProcess(repo_url, repo_credentials, repo_path, fava_command)
     daemon.start()
 
 
