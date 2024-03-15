@@ -21,9 +21,9 @@ class DaemonProcess(multiprocessing.Process):
         repo_credentials,
         repo_path,
         fava_command="fava -H 0.0.0.0 main.bean",
+        install_command="pip install -e .",
     ):
         super().__init__()
-        install_command = "pip install -e ."
 
         self.repo_url = repo_url
         self.repo_credentials = repo_credentials
@@ -213,6 +213,7 @@ def main():
     parser.add_argument("--repo-url", required=True, help="仓库的远程URL")
     parser.add_argument("--repo-credentials", required=True, help="访问远程仓库的凭证")
     parser.add_argument("--fava-command", required=True, help="执行 fava 的命令")
+    parser.add_argument("--init-command", required=True, help="初始化项目的命令")
 
     # 解析命令行参数
     args = parser.parse_args()
@@ -221,8 +222,9 @@ def main():
     repo_url = args.repo_url
     repo_credentials = args.repo_credentials
     fava_command = args.fava_command
+    init_command = args.init_command
 
-    daemon = DaemonProcess(repo_url, repo_credentials, repo_path, fava_command)
+    daemon = DaemonProcess(repo_url, repo_credentials, repo_path, fava_command, init_command)
     daemon.start()
 
 
