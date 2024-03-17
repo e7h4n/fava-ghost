@@ -113,8 +113,7 @@ class DaemonProcess(multiprocessing.Process):
         """Commit local changes and return True if successful."""
 
         self.repo.git.add(A=True)
-        if self.run_bean_check(self.BEAN_CHECK_FILE):
-            self.repo.index.commit("Auto-commit by daemon process")
+        self.repo.index.commit("Auto-commit by daemon process")
 
     def fetch_and_merge_changes(self):
         """Fetch and merge changes from remote and return True if successful."""
@@ -154,23 +153,6 @@ class DaemonProcess(multiprocessing.Process):
             print("Merge conflicts detected after pull. Waiting for manual resolution.")
             return False
         return True
-
-    def run_bean_check(self, file_path):
-        """Run bean-check in a subprocess."""
-
-        try:
-            result = subprocess.run(
-                ["bean-check", file_path],
-                check=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                cwd=self.repo_path,
-            )
-            print(result.stdout.decode())
-            return result.returncode == 0
-        except subprocess.CalledProcessError as exp:
-            print(f"Bean-check failed: {exp.output.decode()}")
-            return False
 
     def install_dependencies(self):
         """Install dependencies in a subprocess."""
